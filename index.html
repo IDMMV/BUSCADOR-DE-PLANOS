@@ -15,805 +15,625 @@
 }
 body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;height:100vh;display:flex;flex-direction:column;overflow:hidden}
 
-/* HEADER */
 #header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;gap:12px;height:52px;flex-shrink:0}
-#header h1{font-size:15px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px}
-#header h1 span{font-size:20px}
-.badge{background:var(--accent);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;letter-spacing:.5px}
-#btn-config{margin-left:auto;background:transparent;border:1px solid var(--border);color:var(--text2);padding:6px 12px;border-radius:var(--radius);cursor:pointer;font-size:13px;display:flex;align-items:center;gap:6px;transition:.2s}
+#header h1{font-size:15px;font-weight:600;display:flex;align-items:center;gap:8px}
+.badge{background:var(--accent);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px}
+#btn-config{margin-left:auto;background:transparent;border:1px solid var(--border);color:var(--text2);padding:6px 12px;border-radius:var(--radius);cursor:pointer;font-size:13px;transition:.2s}
 #btn-config:hover{border-color:var(--accent);color:var(--accent)}
 
-/* MAIN LAYOUT */
 #main{display:flex;flex:1;overflow:hidden}
 
-/* LEFT PANEL */
-#panel{width:300px;min-width:280px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;transition:.3s}
-#panel.collapsed{width:0;min-width:0;overflow:hidden}
+#panel{width:300px;min-width:280px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
 
-/* PANEL SECTIONS */
 .p-section{padding:12px;border-bottom:1px solid var(--border)}
 .p-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
 
-/* FILE UPLOAD */
 #drop-zone{border:2px dashed var(--border);border-radius:var(--radius2);padding:20px;text-align:center;cursor:pointer;transition:.2s;position:relative}
 #drop-zone:hover,#drop-zone.drag{border-color:var(--accent);background:rgba(59,130,246,.06)}
-#drop-zone input{position:absolute;inset:0;opacity:0;cursor:pointer}
+#drop-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
 #drop-zone .dz-icon{font-size:28px;margin-bottom:6px}
 #drop-zone .dz-text{font-size:12px;color:var(--text2)}
 #drop-zone .dz-sub{font-size:11px;color:var(--text3);margin-top:4px}
-#file-name{font-size:12px;color:var(--success);padding:6px 8px;background:rgba(34,197,94,.08);border-radius:var(--radius);display:none;align-items:center;gap:6px;margin-top:8px;word-break:break-all}
 
-/* PROGRESS */
-#progress-wrap{display:none;flex-direction:column;gap:6px;padding:8px 0}
+#file-info{display:none;margin-top:8px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:var(--radius);padding:8px 10px;font-size:12px;color:var(--success)}
+
+#progress-wrap{display:none;flex-direction:column;gap:6px;padding-top:10px}
 #progress-bar-bg{background:var(--bg3);border-radius:20px;height:6px;overflow:hidden}
-#progress-bar{background:var(--accent);height:100%;width:0%;transition:.4s;border-radius:20px}
-#progress-text{font-size:11px;color:var(--text2)}
+#progress-bar{background:var(--accent);height:100%;width:0%;transition:.5s;border-radius:20px}
+#progress-text{font-size:11px;color:var(--text2);line-height:1.4}
 
-/* SEARCH */
+/* SEARCH — disabled state */
+#search-wrap{opacity:.4;pointer-events:none;transition:.3s}
+#search-wrap.enabled{opacity:1;pointer-events:all}
 #search-box{display:flex;gap:6px}
 #search-input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:7px 10px;color:var(--text);font-size:13px;outline:none;transition:.2s}
 #search-input:focus{border-color:var(--accent)}
-#btn-search{background:var(--accent);border:none;color:#fff;padding:7px 12px;border-radius:var(--radius);cursor:pointer;font-size:13px;font-weight:600;white-space:nowrap;transition:.2s}
-#btn-search:hover{background:var(--accent2)}
+#btn-search{background:var(--accent);border:none;color:#fff;padding:7px 14px;border-radius:var(--radius);cursor:pointer;font-size:13px;font-weight:600}
 #exact-wrap{display:flex;align-items:center;gap:6px;margin-top:6px}
 #exact-wrap label{font-size:12px;color:var(--text2);cursor:pointer}
+#search-hint{font-size:11px;color:var(--text3);margin-top:6px;display:none}
+#search-hint.show{display:block}
 
-/* RESULTS */
 #results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-#results-count{font-size:12px;color:var(--text2)}
-#nav-buttons{display:flex;gap:4px}
+#results-count{font-size:11px;color:var(--text3)}
 .nav-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text2);width:28px;height:28px;border-radius:var(--radius);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:.2s}
 .nav-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
 .nav-btn:disabled{opacity:.3;cursor:not-allowed}
 #results-list{overflow-y:auto;flex:1}
-.result-item{padding:8px 10px;border-radius:var(--radius);cursor:pointer;border:1px solid transparent;margin-bottom:4px;transition:.15s;display:flex;flex-direction:column;gap:2px}
+.result-item{padding:8px 10px;border-radius:var(--radius);cursor:pointer;border:1px solid transparent;margin-bottom:4px;transition:.15s}
 .result-item:hover{background:var(--bg3);border-color:var(--border)}
 .result-item.active{background:rgba(59,130,246,.12);border-color:rgba(59,130,246,.4)}
-.ri-name{font-size:13px;font-weight:500;color:var(--text)}
-.ri-detail{font-size:11px;color:var(--text3)}
-.ri-layer{font-size:10px;color:var(--accent2);background:rgba(59,130,246,.1);padding:1px 6px;border-radius:10px;display:inline-block;margin-top:2px}
+.ri-name{font-size:13px;font-weight:500;color:var(--text);display:block}
+.ri-detail{font-size:11px;color:var(--text3);display:block;margin-top:2px}
+.ri-id{font-size:10px;color:var(--accent2);background:rgba(59,130,246,.1);padding:1px 6px;border-radius:10px;display:inline-block;margin-top:3px}
 #no-results{font-size:13px;color:var(--text3);text-align:center;padding:20px;display:none}
 
-/* VIEWER */
-#viewer-wrap{flex:1;position:relative;background:var(--bg);display:flex;align-items:center;justify-content:center;overflow:hidden}
-#viewer-inner{width:100%;height:100%}
-#forge-viewer{width:100%;height:100%}
+#viewer-wrap{flex:1;position:relative;background:#111;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#forge-viewer{width:100%;height:100%;display:none}
 
-/* PLACEHOLDER */
-#placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--text3);pointer-events:none}
-#placeholder .ph-icon{font-size:56px;opacity:.3}
-#placeholder p{font-size:14px;text-align:center;max-width:260px;line-height:1.5}
+#placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--text3);text-align:center;padding:20px}
+#placeholder .ph-icon{font-size:52px;opacity:.25}
+#placeholder p{font-size:13px;max-width:240px;line-height:1.5}
+#placeholder button{background:var(--accent);border:none;color:#fff;padding:8px 20px;border-radius:var(--radius);cursor:pointer;font-size:13px;margin-top:4px}
 
-/* MARKER */
-#marker{position:absolute;pointer-events:none;display:none;z-index:100}
-#marker-inner{width:32px;height:32px;border-radius:50%;border:3px solid var(--warn);background:rgba(245,158,11,.25);animation:pulse 1.2s infinite}
-#marker-pin{width:2px;height:20px;background:var(--warn);position:absolute;bottom:-20px;left:50%;transform:translateX(-50%)}
-@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.6}}
+#marker{position:absolute;pointer-events:none;display:none;z-index:100;transform:translate(-50%,-50%)}
+#marker-ring{width:36px;height:36px;border-radius:50%;border:3px solid var(--warn);background:rgba(245,158,11,.2);animation:pulse 1.1s ease-in-out infinite}
+#marker-dot{width:6px;height:6px;border-radius:50%;background:var(--warn);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.5}}
 
-/* TOOLBAR */
 #toolbar{position:absolute;bottom:16px;right:16px;display:flex;flex-direction:column;gap:6px;z-index:50}
-.tb-btn{width:36px;height:36px;border-radius:var(--radius);background:var(--bg2);border:1px solid var(--border);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:.2s}
+.tb-btn{width:36px;height:36px;border-radius:var(--radius);background:rgba(26,29,39,.9);border:1px solid var(--border);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:.2s;backdrop-filter:blur(4px)}
 .tb-btn:hover{border-color:var(--accent);color:var(--accent)}
 
-/* STATUS BAR */
-#statusbar{background:var(--bg2);border-top:1px solid var(--border);padding:4px 12px;font-size:11px;color:var(--text3);display:flex;align-items:center;gap:12px;flex-shrink:0;height:26px}
-#statusbar .s-dot{width:6px;height:6px;border-radius:50%;background:var(--text3)}
-#statusbar .s-dot.green{background:var(--success)}
-#statusbar .s-dot.blue{background:var(--accent);animation:blink .8s infinite}
+#statusbar{background:var(--bg2);border-top:1px solid var(--border);padding:4px 12px;font-size:11px;color:var(--text3);display:flex;align-items:center;gap:8px;flex-shrink:0;height:26px}
+.s-dot{width:6px;height:6px;border-radius:50%;background:var(--text3);flex-shrink:0}
+.s-dot.green{background:var(--success)}
+.s-dot.blue{background:var(--accent);animation:blink .8s infinite}
+.s-dot.red{background:var(--danger)}
 @keyframes blink{50%{opacity:.2}}
 
-/* MODAL CONFIG */
-#modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:200}
+#modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:200}
 #modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);padding:24px;width:440px;max-width:95vw}
 #modal h2{font-size:16px;font-weight:600;margin-bottom:4px}
-#modal p{font-size:12px;color:var(--text2);margin-bottom:20px}
-.field{display:flex;flex-direction:column;gap:4px;margin-bottom:14px}
+#modal .sub{font-size:12px;color:var(--text2);margin-bottom:16px}
+.field{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
 .field label{font-size:12px;color:var(--text2);font-weight:500}
 .field input{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:8px 10px;color:var(--text);font-size:13px;outline:none;font-family:monospace}
 .field input:focus{border-color:var(--accent)}
-.modal-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}
+.warn-box{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);border-radius:var(--radius);padding:8px 12px;font-size:11px;color:var(--warn);margin-bottom:14px;line-height:1.5}
+.modal-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
 .btn-cancel{background:transparent;border:1px solid var(--border);color:var(--text2);padding:8px 16px;border-radius:var(--radius);cursor:pointer;font-size:13px}
 .btn-save{background:var(--accent);border:none;color:#fff;padding:8px 20px;border-radius:var(--radius);cursor:pointer;font-size:13px;font-weight:600}
-.warn-box{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:var(--radius);padding:8px 12px;font-size:11px;color:var(--warn);margin-bottom:14px;line-height:1.4}
 
-/* TOAST */
-#toast{position:fixed;bottom:40px;left:50%;transform:translateX(-50%);background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);padding:10px 20px;font-size:13px;color:var(--text);z-index:300;display:none;animation:fadein .3s}
-@keyframes fadein{from{opacity:0;transform:translateX(-50%) translateY(10px)}}
-
-/* PANEL TOGGLE */
-#btn-toggle{position:absolute;left:300px;top:50%;transform:translateY(-50%);background:var(--bg2);border:1px solid var(--border);border-radius:0 var(--radius) var(--radius) 0;width:16px;height:40px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text3);z-index:10;font-size:10px;transition:.3s}
-#btn-toggle:hover{color:var(--accent)}
-#panel.collapsed~#btn-toggle{left:0}
-
-/* LAYER PANEL */
-#layers-panel{position:absolute;top:8px;right:52px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);padding:12px;min-width:200px;display:none;z-index:60;max-height:300px;overflow-y:auto}
-#layers-panel h3{font-size:12px;font-weight:600;margin-bottom:8px;color:var(--text2)}
-.layer-row{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:12px;cursor:pointer}
-.layer-row:hover{color:var(--accent2)}
-
-/* COORDS */
-#coords{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--text3);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 12px;display:none}
-
-scrollbar-width:thin;
+#toast{position:fixed;bottom:36px;left:50%;transform:translateX(-50%);background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);padding:10px 20px;font-size:13px;color:var(--text);z-index:300;display:none;white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <div id="header">
-  <h1><span>📐</span> Localizador DWG <span class="badge">WEB</span></h1>
+  <h1>📐 Localizador DWG <span class="badge">WEB</span></h1>
   <button id="btn-config" onclick="openModal()">⚙ Credenciales APS</button>
 </div>
 
-<!-- MAIN -->
 <div id="main">
 
-  <!-- LEFT PANEL -->
   <div id="panel">
 
-    <!-- FILE UPLOAD -->
+    <!-- CARGA -->
     <div class="p-section">
-      <div class="p-label">Plano DWG / DXF / RVT</div>
+      <div class="p-label">1 · Cargar plano</div>
       <div id="drop-zone">
         <input type="file" id="file-input" accept=".dwg,.dxf,.rvt,.ifc,.nwd,.nwc,.pdf">
         <div class="dz-icon">📂</div>
-        <div class="dz-text">Haz clic o arrastra tu archivo</div>
-        <div class="dz-sub">DWG · DXF · RVT · IFC · NWD · PDF</div>
+        <div class="dz-text">Clic o arrastra tu archivo</div>
+        <div class="dz-sub">DWG · DXF · RVT · IFC · PDF</div>
       </div>
-      <div id="file-name">
-        <span>✅</span><span id="file-name-text"></span>
-      </div>
+      <div id="file-info"></div>
       <div id="progress-wrap">
         <div id="progress-bar-bg"><div id="progress-bar"></div></div>
-        <div id="progress-text">Subiendo archivo...</div>
+        <div id="progress-text">Iniciando...</div>
       </div>
     </div>
 
-    <!-- SEARCH -->
-    <div class="p-section">
-      <div class="p-label">Buscador</div>
+    <!-- BUSCAR -->
+    <div class="p-section" id="search-wrap">
+      <div class="p-label">2 · Buscar</div>
       <div id="search-box">
         <input type="text" id="search-input" placeholder="Código, texto, bloque..." onkeydown="if(event.key==='Enter')doSearch()">
         <button id="btn-search" onclick="doSearch()">🔍</button>
       </div>
       <div id="exact-wrap">
         <input type="checkbox" id="exact-check">
-        <label for="exact-check">Coincdencia exacta</label>
+        <label for="exact-check">Coincidencia exacta</label>
       </div>
+      <div id="search-hint">Plano listo — escribe y presiona Buscar</div>
     </div>
 
-    <!-- RESULTS -->
-    <div class="p-section" style="flex:1;display:flex;flex-direction:column;overflow:hidden">
+    <!-- RESULTADOS -->
+    <div class="p-section" style="flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0">
       <div id="results-header">
         <span class="p-label" style="margin:0">Resultados</span>
-        <div style="display:flex;align-items:center;gap:8px">
-          <span id="results-count" style="font-size:11px;color:var(--text3)"></span>
-          <div id="nav-buttons">
-            <button class="nav-btn" id="btn-prev" onclick="navigate(-1)" disabled title="Anterior">◀</button>
-            <button class="nav-btn" id="btn-next" onclick="navigate(1)" disabled title="Siguiente">▶</button>
-          </div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span id="results-count"></span>
+          <button class="nav-btn" id="btn-prev" onclick="navigate(-1)" disabled>◀</button>
+          <button class="nav-btn" id="btn-next" onclick="navigate(1)" disabled>▶</button>
         </div>
       </div>
-      <div id="no-results">Sin coincidencias</div>
-      <div id="results-list"></div>
+      <div id="no-results"></div>
+      <div id="results-list" style="overflow-y:auto;flex:1"></div>
     </div>
 
   </div>
 
-  <!-- VIEWER AREA -->
   <div id="viewer-wrap">
-    <div id="viewer-inner">
-      <div id="forge-viewer"></div>
-    </div>
 
-    <!-- PLACEHOLDER -->
+    <div id="forge-viewer"></div>
+
     <div id="placeholder">
       <div class="ph-icon">🗺️</div>
-      <p>Configura tus credenciales APS y carga un plano para comenzar</p>
-      <button onclick="openModal()" style="background:var(--accent);border:none;color:#fff;padding:8px 20px;border-radius:var(--radius);cursor:pointer;font-size:13px;margin-top:4px">⚙ Configurar APS</button>
+      <p>Configura tus credenciales APS y carga un plano DWG para comenzar</p>
+      <button onclick="openModal()">⚙ Configurar credenciales</button>
     </div>
 
-    <!-- MARKER -->
     <div id="marker">
-      <div id="marker-inner"></div>
-      <div id="marker-pin"></div>
+      <div id="marker-ring"><div id="marker-dot"></div></div>
     </div>
 
-    <!-- TOOLBAR -->
     <div id="toolbar">
       <button class="tb-btn" onclick="zoomFit()" title="Ajustar vista">⊞</button>
-      <button class="tb-btn" onclick="zoomIn()" title="Acercar">+</button>
-      <button class="tb-btn" onclick="zoomOut()" title="Alejar">−</button>
-      <button class="tb-btn" onclick="toggleLayers()" title="Capas">≡</button>
+      <button class="tb-btn" onclick="viewerZoom(1.3)" title="Acercar">+</button>
+      <button class="tb-btn" onclick="viewerZoom(0.75)" title="Alejar">−</button>
     </div>
-
-    <!-- LAYERS -->
-    <div id="layers-panel">
-      <h3>Capas</h3>
-      <div id="layers-list"></div>
-    </div>
-
-    <!-- COORDS -->
-    <div id="coords">X: — Y: —</div>
 
   </div>
-
-  <!-- PANEL TOGGLE -->
-  <button id="btn-toggle" onclick="togglePanel()">◀</button>
 
 </div>
 
-<!-- STATUS BAR -->
 <div id="statusbar">
   <div class="s-dot" id="status-dot"></div>
   <span id="status-text">Listo — configura credenciales APS para comenzar</span>
 </div>
 
-<!-- MODAL -->
 <div id="modal-bg" onclick="if(event.target===this)closeModal()">
   <div id="modal">
     <h2>⚙ Credenciales Autodesk Platform Services</h2>
-    <p>Crea tu app en <a href="https://aps.autodesk.com" target="_blank" style="color:var(--accent2)">aps.autodesk.com</a> → My Apps → Create App</p>
-    <div class="warn-box">
-      ⚠ Este visor usa un proxy seguro temporal para el token. Tus credenciales solo se usan en esta sesión del navegador y nunca se almacenan en servidores externos. Para producción usa un backend propio.
-    </div>
+    <p class="sub">Obtén tus credenciales en <a href="https://aps.autodesk.com" target="_blank" style="color:var(--accent2)">aps.autodesk.com</a> → My Apps → Create App</p>
+    <div class="warn-box">⚠ Tus credenciales solo se usan en esta sesión del navegador para obtener un token temporal. No se almacenan en ningún servidor externo. Para producción con planos confidenciales usa un servidor propio.</div>
     <div class="field">
       <label>Client ID</label>
-      <input type="text" id="cfg-id" placeholder="abc123def456..." autocomplete="off">
+      <input type="text" id="cfg-id" placeholder="abc123def456...">
     </div>
     <div class="field">
       <label>Client Secret</label>
-      <input type="password" id="cfg-secret" placeholder="••••••••••••••••" autocomplete="off">
+      <input type="password" id="cfg-secret" placeholder="••••••••••••••••">
     </div>
     <div class="field">
-      <label>Bucket (opcional — se genera automáticamente)</label>
-      <input type="text" id="cfg-bucket" placeholder="mi-empresa-planos-2024">
+      <label>Nombre del Bucket (opcional)</label>
+      <input type="text" id="cfg-bucket" placeholder="Se genera automáticamente">
     </div>
     <div class="modal-btns">
       <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
-      <button class="btn-save" onclick="saveConfig()">Guardar y conectar</button>
+      <button class="btn-save" onclick="saveConfig()">Guardar</button>
     </div>
   </div>
 </div>
 
-<!-- TOAST -->
 <div id="toast"></div>
 
-<!-- AUTODESK VIEWER SDK -->
 <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/style.css">
 <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/viewer3D.min.js"></script>
 
 <script>
-// =====================================================
-// STATE
-// =====================================================
+// ── STATE ──────────────────────────────────────────
 let cfg = {id:'', secret:'', bucket:''};
 let viewer = null;
 let accessToken = null;
 let tokenExpiry = 0;
-let currentUrn = null;
 let searchResults = [];
-let currentResultIdx = -1;
-let panelOpen = true;
+let currentIdx = -1;
+let viewerReady = false;
 
-// Load saved config
-try {
-  const saved = sessionStorage.getItem('aps_cfg');
-  if(saved) cfg = JSON.parse(saved);
-} catch(e){}
+// Restore session
+try{ const s=sessionStorage.getItem('aps_cfg'); if(s) cfg=JSON.parse(s); }catch(e){}
+if(cfg.id) setStatus('Credenciales cargadas — carga un archivo DWG', 'green');
 
-// =====================================================
-// MODAL
-// =====================================================
+// ── MODAL ──────────────────────────────────────────
 function openModal(){
   document.getElementById('cfg-id').value = cfg.id||'';
   document.getElementById('cfg-secret').value = cfg.secret||'';
   document.getElementById('cfg-bucket').value = cfg.bucket||'';
-  document.getElementById('modal-bg').style.display = 'flex';
+  document.getElementById('modal-bg').style.display='flex';
 }
-function closeModal(){
-  document.getElementById('modal-bg').style.display = 'none';
-}
+function closeModal(){ document.getElementById('modal-bg').style.display='none'; }
 function saveConfig(){
-  cfg.id = document.getElementById('cfg-id').value.trim();
-  cfg.secret = document.getElementById('cfg-secret').value.trim();
-  cfg.bucket = document.getElementById('cfg-bucket').value.trim();
-  if(!cfg.id || !cfg.secret){ showToast('⚠ Ingresa Client ID y Secret'); return; }
-  if(!cfg.bucket) cfg.bucket = 'dwgvisor-' + cfg.id.toLowerCase().replace(/[^a-z0-9]/g,'').substring(0,20) + '-bucket';
+  const id = document.getElementById('cfg-id').value.trim();
+  const secret = document.getElementById('cfg-secret').value.trim();
+  if(!id||!secret){ toast('⚠ Ingresa Client ID y Client Secret'); return; }
+  cfg.id = id;
+  cfg.secret = secret;
+  cfg.bucket = document.getElementById('cfg-bucket').value.trim() ||
+    'dwgv-' + id.toLowerCase().replace(/[^a-z0-9]/g,'').substring(0,18) + '-bkt';
   sessionStorage.setItem('aps_cfg', JSON.stringify(cfg));
   closeModal();
-  showToast('✅ Credenciales guardadas');
-  setStatus('Credenciales listas — carga un archivo', 'green');
+  toast('✅ Credenciales guardadas');
+  setStatus('Credenciales listas — carga un archivo DWG', 'green');
 }
 
-// =====================================================
-// TOKEN (2-legged via CORS proxy)
-// =====================================================
-async function getToken(){
-  if(accessToken && Date.now() < tokenExpiry - 60000) return accessToken;
-  if(!cfg.id || !cfg.secret){ showToast('⚠ Configura credenciales APS primero'); return null; }
+// ── TOKEN (vía proxy CORS) ─────────────────────────
+// Probamos dos proxies: primero allorigins, luego corsproxy.io
+const PROXIES = [
+  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+  url => `https://corsproxy.io/?${encodeURIComponent(url)}`
+];
 
-  setStatus('Obteniendo token APS...', 'blue');
-  try {
-    // Use corsproxy.io to call APS token endpoint
-    const body = new URLSearchParams({
-      client_id: cfg.id,
-      client_secret: cfg.secret,
-      grant_type: 'client_credentials',
-      scope: 'data:read data:write data:create bucket:create bucket:read'
-    });
-
-    const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent('https://developer.api.autodesk.com/authentication/v2/token');
-    const res = await fetch(proxyUrl, {
-      method:'POST',
-      headers:{'Content-Type':'application/x-www-form-urlencoded'},
-      body: body.toString()
-    });
-
-    if(!res.ok){
-      const err = await res.text();
-      throw new Error('Token error: ' + err);
-    }
-    const data = await res.json();
-    accessToken = data.access_token;
-    tokenExpiry = Date.now() + (data.expires_in * 1000);
-    setStatus('Token APS OK', 'green');
-    return accessToken;
-  } catch(e){
-    console.error(e);
-    showToast('❌ Error de autenticación: ' + e.message.substring(0,80));
-    setStatus('Error de autenticación', '');
-    return null;
+async function apsFetch(url, options={}, attempt=0){
+  if(attempt >= PROXIES.length) throw new Error('No se pudo conectar con APS (proxies agotados)');
+  const proxyUrl = PROXIES[attempt](url);
+  try{
+    const res = await fetch(proxyUrl, options);
+    // allorigins devuelve 200 aunque falle el origen — revisamos contenido
+    if(!res.ok) return apsFetch(url, options, attempt+1);
+    return res;
+  }catch(e){
+    return apsFetch(url, options, attempt+1);
   }
 }
 
-// =====================================================
-// FILE UPLOAD & TRANSLATION
-// =====================================================
-document.getElementById('file-input').addEventListener('change', handleFile);
-const dz = document.getElementById('drop-zone');
-dz.addEventListener('dragover', e=>{ e.preventDefault(); dz.classList.add('drag'); });
-dz.addEventListener('dragleave', ()=> dz.classList.remove('drag'));
-dz.addEventListener('drop', e=>{ e.preventDefault(); dz.classList.remove('drag'); if(e.dataTransfer.files[0]) handleFileObj(e.dataTransfer.files[0]); });
+async function getToken(){
+  if(accessToken && Date.now() < tokenExpiry-60000) return accessToken;
+  if(!cfg.id||!cfg.secret){ openModal(); throw new Error('Sin credenciales'); }
 
-function handleFile(e){
-  if(e.target.files[0]) handleFileObj(e.target.files[0]);
+  setStatus('Obteniendo token APS...','blue');
+  const body = `client_id=${encodeURIComponent(cfg.id)}&client_secret=${encodeURIComponent(cfg.secret)}&grant_type=client_credentials&scope=data%3Aread%20data%3Awrite%20data%3Acreate%20bucket%3Acreate%20bucket%3Aread`;
+
+  // Intentamos proxy 0
+  let res, data;
+  for(let i=0;i<PROXIES.length;i++){
+    try{
+      res = await fetch(PROXIES[i]('https://developer.api.autodesk.com/authentication/v2/token'),{
+        method:'POST',
+        headers:{'Content-Type':'application/x-www-form-urlencoded'},
+        body
+      });
+      const text = await res.text();
+      data = JSON.parse(text);
+      if(data.access_token) break;
+    }catch(e){ data=null; }
+  }
+
+  if(!data||!data.access_token){
+    // Último recurso: fetch directo (funciona si APS tiene CORS abierto para este endpoint)
+    try{
+      res = await fetch('https://developer.api.autodesk.com/authentication/v2/token',{
+        method:'POST',
+        headers:{'Content-Type':'application/x-www-form-urlencoded'},
+        body
+      });
+      data = await res.json();
+    }catch(e){ throw new Error('No se pudo obtener el token APS. Verifica tus credenciales.'); }
+  }
+
+  if(!data.access_token) throw new Error('Token inválido: ' + JSON.stringify(data));
+  accessToken = data.access_token;
+  tokenExpiry = Date.now() + (data.expires_in||3600)*1000;
+  setStatus('Token OK','green');
+  return accessToken;
 }
 
-async function handleFileObj(file){
-  if(!cfg.id){ openModal(); showToast('⚠ Configura credenciales primero'); return; }
+// ── UPLOAD & TRANSLATE ─────────────────────────────
+document.getElementById('file-input').addEventListener('change', e=>{ if(e.target.files[0]) processFile(e.target.files[0]); });
+const dz = document.getElementById('drop-zone');
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag');});
+dz.addEventListener('dragleave',()=>dz.classList.remove('drag'));
+dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag');if(e.dataTransfer.files[0])processFile(e.dataTransfer.files[0]);});
 
-  const nameEl = document.getElementById('file-name');
-  const nameText = document.getElementById('file-name-text');
-  nameText.textContent = file.name;
-  nameEl.style.display = 'flex';
+async function processFile(file){
+  if(!cfg.id){ openModal(); toast('⚠ Configura credenciales primero'); return; }
 
-  const token = await getToken();
-  if(!token) return;
+  // Reset UI
+  viewerReady = false;
+  document.getElementById('search-wrap').classList.remove('enabled');
+  document.getElementById('search-hint').classList.remove('show');
+  document.getElementById('results-list').innerHTML='';
+  document.getElementById('no-results').textContent='';
+  searchResults=[];
 
-  showProgress('Creando bucket...', 5);
+  showFileInfo('📄 ' + file.name + ' (' + (file.size/1024/1024).toFixed(1) + ' MB)');
+  showProgress('Obteniendo token...', 5);
 
-  try {
-    // 1. Create bucket if needed
+  try{
+    const token = await getToken();
+
+    showProgress('Verificando bucket...', 10);
     await ensureBucket(token);
 
-    showProgress('Subiendo archivo...', 15);
+    showProgress('Subiendo archivo a Autodesk...', 20);
+    const objectKey = file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    const urnRaw = await uploadFile(token, file, objectKey);
 
-    // 2. Upload file
-    const objectKey = encodeURIComponent(file.name);
-    const uploadUrl = `https://corsproxy.io/?${encodeURIComponent(`https://developer.api.autodesk.com/oss/v2/buckets/${cfg.bucket}/objects/${objectKey}`)}`;
+    showProgress('Iniciando traducción SVF2...', 45);
+    const urnB64 = btoa(urnRaw).replace(/=/g,'');
+    await startTranslation(token, urnB64);
 
-    const uploadRes = await fetch(uploadUrl, {
-      method:'PUT',
-      headers:{
-        'Authorization':'Bearer ' + token,
-        'Content-Type':'application/octet-stream'
-      },
-      body: file
-    });
-
-    if(!uploadRes.ok) throw new Error('Upload failed: ' + await uploadRes.text());
-    const uploadData = await uploadRes.json();
-    const objectId = uploadData.objectId;
-
-    showProgress('Traduciendo plano (puede tardar 1-3 min)...', 40);
-
-    // 3. Translate
-    const urnB64 = btoa(objectId).replace(/=/g,'');
-    await translateModel(token, urnB64);
-
-    showProgress('Esperando traducción...', 60);
-
-    // 4. Poll for completion
-    await pollTranslation(token, urnB64);
+    showProgress('Esperando traducción (puede tardar 1-3 min)...', 50);
+    await waitForTranslation(token, urnB64);
 
     showProgress('Cargando visor...', 90);
-
-    // 5. Launch viewer
-    await launchViewer(token, urnB64);
+    await initViewer(token, urnB64);
 
     hideProgress();
-    setStatus('Plano cargado: ' + file.name, 'green');
+    setStatus('✅ Plano listo: ' + file.name, 'green');
 
-  } catch(e){
+    // Enable search
+    viewerReady = true;
+    document.getElementById('search-wrap').classList.add('enabled');
+    document.getElementById('search-hint').classList.add('show');
+    toast('✅ Plano cargado — ahora puedes buscar');
+
+  }catch(e){
+    hideProgress();
+    setStatus('Error: ' + e.message.substring(0,80), 'red');
+    toast('❌ ' + e.message.substring(0,100));
     console.error(e);
-    hideProgress();
-    showToast('❌ Error: ' + e.message.substring(0,100));
-    setStatus('Error al procesar el archivo', '');
   }
 }
 
 async function ensureBucket(token){
-  const url = `https://corsproxy.io/?${encodeURIComponent(`https://developer.api.autodesk.com/oss/v2/buckets/${cfg.bucket}/details`)}`;
-  const checkRes = await fetch(url, {headers:{'Authorization':'Bearer '+token}});
-  if(checkRes.status === 200) return; // already exists
+  // Check
+  try{
+    const r = await fetch(`https://developer.api.autodesk.com/oss/v2/buckets/${cfg.bucket}/details`,{
+      headers:{'Authorization':'Bearer '+token}
+    });
+    if(r.ok) return;
+  }catch(e){}
 
-  const createUrl = `https://corsproxy.io/?${encodeURIComponent('https://developer.api.autodesk.com/oss/v2/buckets')}`;
-  const createRes = await fetch(createUrl, {
+  // Create
+  const r = await fetch('https://developer.api.autodesk.com/oss/v2/buckets',{
     method:'POST',
     headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},
-    body: JSON.stringify({bucketKey: cfg.bucket, policyKey:'transient'})
+    body: JSON.stringify({bucketKey:cfg.bucket, policyKey:'transient'})
   });
-  if(!createRes.ok && createRes.status !== 409){
-    throw new Error('Bucket error: ' + await createRes.text());
+  if(!r.ok && r.status!==409){
+    // Try via proxy
+    for(let i=0;i<PROXIES.length;i++){
+      const pr = await fetch(PROXIES[i]('https://developer.api.autodesk.com/oss/v2/buckets'),{
+        method:'POST',
+        headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},
+        body: JSON.stringify({bucketKey:cfg.bucket, policyKey:'transient'})
+      });
+      if(pr.ok||pr.status===409) return;
+    }
   }
 }
 
-async function translateModel(token, urnB64){
-  const url = `https://corsproxy.io/?${encodeURIComponent('https://developer.api.autodesk.com/modelderivative/v2/designdata/job')}`;
-  const res = await fetch(url, {
+async function uploadFile(token, file, objectKey){
+  // APS OSS supports CORS for PUT with token
+  const url = `https://developer.api.autodesk.com/oss/v2/buckets/${cfg.bucket}/objects/${objectKey}`;
+  const r = await fetch(url,{
+    method:'PUT',
+    headers:{'Authorization':'Bearer '+token,'Content-Type':'application/octet-stream'},
+    body: file
+  });
+  if(!r.ok) throw new Error('Error al subir: ' + r.status + ' ' + await r.text());
+  const d = await r.json();
+  return d.objectId;
+}
+
+async function startTranslation(token, urnB64){
+  const url = 'https://developer.api.autodesk.com/modelderivative/v2/designdata/job';
+  const r = await fetch(url,{
     method:'POST',
     headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json','x-ads-force':'true'},
     body: JSON.stringify({
-      input:{urn: urnB64},
+      input:{urn:urnB64},
       output:{formats:[{type:'svf2',views:['2d','3d']}]}
     })
   });
-  if(!res.ok) throw new Error('Translation start failed: ' + await res.text());
+  if(!r.ok) throw new Error('Error al iniciar traducción: ' + await r.text());
 }
 
-async function pollTranslation(token, urnB64){
-  const maxAttempts = 60;
-  for(let i=0; i<maxAttempts; i++){
+async function waitForTranslation(token, urnB64){
+  for(let i=0;i<90;i++){
     await sleep(5000);
-    const url = `https://corsproxy.io/?${encodeURIComponent(`https://developer.api.autodesk.com/modelderivative/v2/designdata/${urnB64}/manifest`)}`;
-    const res = await fetch(url, {headers:{'Authorization':'Bearer '+token}});
-    if(!res.ok) continue;
-    const data = await res.json();
-    const pct = data.progress ? parseInt(data.progress) : 0;
-    showProgress(`Traduciendo: ${data.status} ${pct}%`, 60 + Math.round(pct*0.25));
-
-    if(data.status === 'success') return;
-    if(data.status === 'failed') throw new Error('La traducción falló. Verifica que el archivo no esté dañado.');
+    const url = `https://developer.api.autodesk.com/modelderivative/v2/designdata/${urnB64}/manifest`;
+    const r = await fetch(url,{headers:{'Authorization':'Bearer '+token}});
+    if(!r.ok){ continue; }
+    const d = await r.json();
+    const pct = parseInt(d.progress)||0;
+    showProgress(`Traduciendo: ${d.status} ${pct>0?pct+'%':''}`, 50+Math.round(pct*0.35));
+    if(d.status==='success') return;
+    if(d.status==='failed') throw new Error('La traducción falló. El archivo puede estar corrupto o no soportado.');
   }
-  throw new Error('Tiempo de espera agotado para la traducción');
+  throw new Error('Tiempo de espera agotado. Intenta con un archivo más pequeño.');
 }
 
-// =====================================================
-// VIEWER
-// =====================================================
-async function launchViewer(token, urnB64){
-  currentUrn = urnB64;
-  const placeholder = document.getElementById('placeholder');
-  placeholder.style.display = 'none';
-
-  if(viewer){
-    viewer.finish();
-    viewer = null;
-  }
-
+// ── VIEWER ─────────────────────────────────────────
+async function initViewer(token, urnB64){
   const el = document.getElementById('forge-viewer');
-  el.innerHTML = '';
+  el.style.display='block';
+  document.getElementById('placeholder').style.display='none';
 
-  const options = {
-    env: 'AutodeskProduction2',
-    api: 'streamingV2',
-    getAccessToken: async (cb) => {
-      const t = await getToken();
-      cb(t, 3600);
-    }
-  };
+  if(viewer){ viewer.finish(); viewer=null; }
+  el.innerHTML='';
 
   await new Promise((resolve,reject)=>{
-    Autodesk.Viewing.Initializer(options, async ()=>{
-      const config3d = { extensions: ['Autodesk.DocumentBrowser'] };
-      viewer = new Autodesk.Viewing.GuiViewer3D(el, config3d);
+    Autodesk.Viewing.Initializer({
+      env:'AutodeskProduction2',
+      api:'streamingV2',
+      getAccessToken:(cb)=>{ getToken().then(t=>cb(t,3600)).catch(()=>cb('',0)); }
+    }, ()=>{
+      viewer = new Autodesk.Viewing.GuiViewer3D(el,{});
       viewer.start();
-
-      const docUrl = `urn:${urnB64}`;
-      Autodesk.Viewing.Document.load(docUrl,
-        async (doc) => {
-          const views = doc.getRoot().getDefaultGeometry();
-          await viewer.loadDocumentNode(doc, views);
-
-          // Setup mouse coords
-          viewer.addEventListener(Autodesk.Viewing.MOUSE_MOVE, onMouseMove);
-          document.getElementById('coords').style.display = 'block';
-
-          // Load layers after model load
-          viewer.addEventListener(Autodesk.Viewing.MODEL_LAYERS_LOADED_EVENT, loadLayers);
-
-          resolve();
+      Autodesk.Viewing.Document.load('urn:'+urnB64,
+        doc=>{
+          const geom = doc.getRoot().getDefaultGeometry();
+          viewer.loadDocumentNode(doc, geom).then(resolve).catch(reject);
         },
-        (err) => reject(new Error('Doc load error: ' + JSON.stringify(err)))
+        err=>reject(new Error('Error al cargar modelo: '+JSON.stringify(err)))
       );
     });
   });
 }
 
-function onMouseMove(e){
-  const coords = document.getElementById('coords');
-  if(e.worldPoint){
-    coords.textContent = `X: ${e.worldPoint.x.toFixed(2)}  Y: ${e.worldPoint.y.toFixed(2)}`;
-  }
-}
-
-// =====================================================
-// VIEWER CONTROLS
-// =====================================================
-function zoomFit(){
-  if(viewer) viewer.fitToView();
-}
-function zoomIn(){
-  if(viewer) viewer.navigation.setZoomFactor(viewer.navigation.getZoomFactor() * 1.3);
-}
-function zoomOut(){
-  if(viewer) viewer.navigation.setZoomFactor(viewer.navigation.getZoomFactor() / 1.3);
-}
-function toggleLayers(){
-  const lp = document.getElementById('layers-panel');
-  lp.style.display = lp.style.display === 'block' ? 'none' : 'block';
-}
-
-function loadLayers(){
+function zoomFit(){ if(viewer) viewer.fitToView(); }
+function viewerZoom(f){
   if(!viewer) return;
-  const layerRoot = viewer.model.getLayerRoot();
-  const list = document.getElementById('layers-list');
-  list.innerHTML = '';
-  if(!layerRoot) return;
-
-  function walk(node){
-    if(!node) return;
-    const row = document.createElement('div');
-    row.className = 'layer-row';
-    row.innerHTML = `<input type="checkbox" checked> <span>${node.name||'Layer'}</span>`;
-    row.querySelector('input').addEventListener('change', function(){
-      viewer.setLayerVisible([node.index], this.checked);
-    });
-    list.appendChild(row);
-    if(node.children) node.children.forEach(walk);
-  }
-  if(layerRoot.children) layerRoot.children.forEach(walk);
+  viewer.navigation.setZoomFactor(viewer.navigation.getZoomFactor()*f);
 }
 
-// =====================================================
-// SEARCH
-// =====================================================
+// ── SEARCH ─────────────────────────────────────────
 async function doSearch(){
-  if(!viewer){ showToast('⚠ Carga un plano primero'); return; }
+  if(!viewerReady||!viewer){ toast('⚠ Espera a que el plano termine de cargar'); return; }
   const term = document.getElementById('search-input').value.trim();
-  if(!term){ showToast('⚠ Escribe algo para buscar'); return; }
+  if(!term){ toast('⚠ Escribe algo para buscar'); return; }
 
   const exact = document.getElementById('exact-check').checked;
-  searchResults = [];
-  currentResultIdx = -1;
+  searchResults=[];
+  currentIdx=-1;
+  document.getElementById('results-list').innerHTML='';
+  document.getElementById('no-results').textContent='Buscando...';
+  document.getElementById('results-count').textContent='';
+  document.getElementById('btn-prev').disabled=true;
+  document.getElementById('btn-next').disabled=true;
+  setStatus('Buscando: '+term,'blue');
 
-  setStatus('Buscando: ' + term, 'blue');
+  viewer.search(term,
+    (ids)=>{
+      if(!ids||ids.length===0){ showNoResults('Sin coincidencias para: '+term); setStatus('Sin resultados',''); return; }
 
-  // Search using viewer's search
-  viewer.search(term, (ids)=>{
-    if(!ids || ids.length === 0){
-      showNoResults();
-      setStatus('Sin resultados para: ' + term, '');
-      return;
-    }
+      const results=[];
+      let pending=ids.length;
 
-    // Get properties for each result
-    let pending = ids.length;
-    const results = [];
-
-    ids.forEach(dbId => {
-      viewer.getProperties(dbId, (props)=>{
-        // Filter by exact match if needed
-        let match = false;
-        let matchProp = '';
-        let matchVal = '';
-
-        if(props.properties){
-          props.properties.forEach(p=>{
-            const val = String(p.displayValue||'');
-            if(exact ? val === term : val.toLowerCase().includes(term.toLowerCase())){
-              match = true;
-              matchProp = p.displayName;
-              matchVal = val;
-            }
+      ids.forEach(dbId=>{
+        viewer.getProperties(dbId, props=>{
+          let matchProp='', matchVal='';
+          (props.properties||[]).forEach(p=>{
+            const v=String(p.displayValue||'');
+            const hit = exact ? v===term : v.toLowerCase().includes(term.toLowerCase());
+            if(hit&&!matchProp){ matchProp=p.displayName; matchVal=v; }
           });
-        }
-        // Also check name
-        const name = props.name || '';
-        if(exact ? name === term : name.toLowerCase().includes(term.toLowerCase())){
-          match = true; matchProp = 'Nombre'; matchVal = name;
-        }
-
-        if(!exact || match){
-          results.push({dbId, name: props.name||'Objeto', prop: matchProp, val: matchVal});
-        }
-
-        if(--pending === 0){
-          searchResults = results;
-          renderResults(term);
-          if(results.length > 0){ currentResultIdx = 0; goToResult(0); }
-          setStatus(`${results.length} resultado(s) para: ${term}`, 'green');
-        }
+          results.push({dbId, name:props.name||('Objeto '+dbId), prop:matchProp, val:matchVal});
+          if(--pending===0){
+            searchResults=results;
+            renderResults(term);
+            currentIdx=0;
+            goToResult(0);
+            setStatus(results.length+' resultado(s) para: '+term,'green');
+          }
+        }, ()=>{ if(--pending===0){ searchResults=results; renderResults(term); } });
       });
-    });
-  }, ()=>{
-    showNoResults();
-    setStatus('Sin resultados', '');
-  }, ['name'], exact);
+    },
+    ()=>{ showNoResults('Sin coincidencias para: '+term); setStatus('Sin resultados',''); },
+    ['name'],
+    exact
+  );
 }
 
 function renderResults(term){
-  const list = document.getElementById('results-list');
-  const no = document.getElementById('no-results');
-  const count = document.getElementById('results-count');
+  const list=document.getElementById('results-list');
+  const no=document.getElementById('no-results');
+  no.textContent='';
+  if(searchResults.length===0){ showNoResults('Sin coincidencias'); return; }
 
-  if(searchResults.length === 0){ showNoResults(); return; }
+  document.getElementById('results-count').textContent=searchResults.length+' resultado(s)';
+  document.getElementById('btn-prev').disabled=false;
+  document.getElementById('btn-next').disabled=false;
+  list.innerHTML='';
 
-  no.style.display = 'none';
-  count.textContent = searchResults.length + ' encontrado(s)';
-
-  document.getElementById('btn-prev').disabled = false;
-  document.getElementById('btn-next').disabled = false;
-
-  list.innerHTML = '';
-  searchResults.forEach((r, idx)=>{
-    const item = document.createElement('div');
-    item.className = 'result-item' + (idx===0?' active':'');
-    item.innerHTML = `
-      <span class="ri-name">${highlight(r.name, term)}</span>
-      ${r.prop ? `<span class="ri-detail">${r.prop}: ${highlight(r.val, term)}</span>` : ''}
-      <span class="ri-layer">ID: ${r.dbId}</span>
-    `;
-    item.addEventListener('click', ()=>{ currentResultIdx=idx; goToResult(idx); });
-    list.appendChild(item);
+  searchResults.forEach((r,i)=>{
+    const d=document.createElement('div');
+    d.className='result-item'+(i===0?' active':'');
+    d.innerHTML=`<span class="ri-name">${hl(r.name,term)}</span>`
+      +(r.prop?`<span class="ri-detail">${r.prop}: ${hl(r.val,term)}</span>`:'')
+      +`<span class="ri-id">ID ${r.dbId}</span>`;
+    d.addEventListener('click',()=>{ currentIdx=i; goToResult(i); });
+    list.appendChild(d);
   });
 }
 
-function highlight(text, term){
-  if(!term) return text;
-  const escaped = term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-  return String(text).replace(new RegExp(escaped,'gi'), m=>`<mark style="background:rgba(251,191,36,.3);color:var(--text);border-radius:2px">${m}</mark>`);
+function hl(text,term){
+  const e=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  return String(text).replace(new RegExp(e,'gi'),m=>`<mark style="background:rgba(251,191,36,.3);color:inherit;border-radius:2px">${m}</mark>`);
 }
 
-function showNoResults(){
-  document.getElementById('results-list').innerHTML = '';
-  document.getElementById('no-results').style.display = 'block';
-  document.getElementById('results-count').textContent = '';
-  document.getElementById('btn-prev').disabled = true;
-  document.getElementById('btn-next').disabled = true;
+function showNoResults(msg){
+  document.getElementById('results-list').innerHTML='';
+  document.getElementById('no-results').textContent=msg||'Sin resultados';
+  document.getElementById('results-count').textContent='';
+  document.getElementById('btn-prev').disabled=true;
+  document.getElementById('btn-next').disabled=true;
 }
 
 function navigate(dir){
-  if(searchResults.length === 0) return;
-  currentResultIdx = (currentResultIdx + dir + searchResults.length) % searchResults.length;
-  goToResult(currentResultIdx);
+  if(!searchResults.length) return;
+  currentIdx=(currentIdx+dir+searchResults.length)%searchResults.length;
+  goToResult(currentIdx);
 }
 
-function goToResult(idx){
-  if(!viewer || idx < 0 || idx >= searchResults.length) return;
-
-  // Update active class
-  document.querySelectorAll('.result-item').forEach((el,i)=>{
-    el.classList.toggle('active', i===idx);
-    if(i===idx) el.scrollIntoView({block:'nearest',behavior:'smooth'});
+function goToResult(i){
+  if(!viewer||i<0||i>=searchResults.length) return;
+  document.querySelectorAll('.result-item').forEach((el,j)=>{
+    el.classList.toggle('active',j===i);
+    if(j===i) el.scrollIntoView({block:'nearest',behavior:'smooth'});
   });
-
-  const r = searchResults[idx];
-
-  // Isolate and zoom to object
+  const r=searchResults[i];
   viewer.clearSelection();
   viewer.select([r.dbId]);
   viewer.fitToView([r.dbId]);
-
-  // Place animated marker after a short delay for zoom to settle
-  setTimeout(()=> placeMarker(r.dbId), 600);
-
-  setStatus(`Resultado ${idx+1}/${searchResults.length}: ${r.name}`, 'green');
+  setTimeout(()=>placeMarker(r.dbId),700);
+  setStatus(`Resultado ${i+1}/${searchResults.length}: ${r.name}`,'green');
 }
 
 function placeMarker(dbId){
   if(!viewer) return;
-
-  viewer.getBoundingClientRect = viewer.getBoundingClientRect || (()=>document.getElementById('forge-viewer').getBoundingClientRect());
-
-  const bbox = new THREE.Box3();
-  const fragIds = [];
-  const model = viewer.model;
-
-  model.getData().instanceTree?.enumNodeFragments(dbId,(fragId)=>{
-    fragIds.push(fragId);
-  },true);
-
-  fragIds.forEach(fid=>{
-    const b = new THREE.Box3();
-    model.getFragmentList().getWorldBounds(fid, b);
-    bbox.union(b);
-  });
-
-  if(bbox.isEmpty()){
-    // fallback: use selection bounding box
-    viewer.getSelectionBounds((b)=>{
-      if(b) placeMarkerAtBox(b);
-    });
-    return;
-  }
-
-  placeMarkerAtBox(bbox);
+  try{
+    const tree=viewer.model.getData().instanceTree;
+    if(!tree) return;
+    const bbox=new THREE.Box3();
+    tree.enumNodeFragments(dbId,fid=>{
+      const b=new THREE.Box3();
+      viewer.model.getFragmentList().getWorldBounds(fid,b);
+      bbox.union(b);
+    },true);
+    if(bbox.isEmpty()) return;
+    const center=new THREE.Vector3();
+    bbox.getCenter(center);
+    const vp=viewer.worldToClient(center);
+    const wr=document.getElementById('viewer-wrap').getBoundingClientRect();
+    const vr=document.getElementById('forge-viewer').getBoundingClientRect();
+    const mx=vr.left-wr.left+vp.x;
+    const my=vr.top-wr.top+vp.y;
+    const mk=document.getElementById('marker');
+    mk.style.left=mx+'px';
+    mk.style.top=my+'px';
+    mk.style.display='block';
+    setTimeout(()=>mk.style.display='none',4000);
+  }catch(e){ console.warn('marker error',e); }
 }
 
-function placeMarkerAtBox(bbox){
-  const center = new THREE.Vector3();
-  bbox.getCenter(center);
-
-  const vp = viewer.worldToClient(center);
-  const viewerEl = document.getElementById('forge-viewer');
-  const rect = viewerEl.getBoundingClientRect();
-  const wrapRect = document.getElementById('viewer-wrap').getBoundingClientRect();
-
-  const x = rect.left - wrapRect.left + vp.x;
-  const y = rect.top - wrapRect.top + vp.y;
-
-  const marker = document.getElementById('marker');
-  marker.style.left = (x - 16) + 'px';
-  marker.style.top = (y - 16) + 'px';
-  marker.style.display = 'block';
-
-  setTimeout(()=>{ marker.style.display = 'none'; }, 4000);
+// ── HELPERS ────────────────────────────────────────
+function showFileInfo(msg){
+  const el=document.getElementById('file-info');
+  el.textContent=msg; el.style.display='block';
 }
-
-// =====================================================
-// PANEL TOGGLE
-// =====================================================
-function togglePanel(){
-  const panel = document.getElementById('panel');
-  const btn = document.getElementById('btn-toggle');
-  panelOpen = !panelOpen;
-  panel.classList.toggle('collapsed', !panelOpen);
-  btn.style.left = panelOpen ? '300px' : '0';
-  btn.textContent = panelOpen ? '◀' : '▶';
+function showProgress(msg,pct){
+  document.getElementById('progress-wrap').style.display='flex';
+  document.getElementById('progress-bar').style.width=pct+'%';
+  document.getElementById('progress-text').textContent=msg;
+  setStatus(msg,'blue');
 }
-
-// =====================================================
-// UI HELPERS
-// =====================================================
-function showProgress(msg, pct){
-  document.getElementById('progress-wrap').style.display = 'flex';
-  document.getElementById('progress-bar').style.width = pct + '%';
-  document.getElementById('progress-text').textContent = msg;
-  setStatus(msg, 'blue');
+function hideProgress(){ document.getElementById('progress-wrap').style.display='none'; }
+function setStatus(msg,type){
+  document.getElementById('status-text').textContent=msg;
+  const d=document.getElementById('status-dot');
+  d.className='s-dot'+(type?' '+type:'');
 }
-function hideProgress(){
-  document.getElementById('progress-wrap').style.display = 'none';
+function toast(msg,ms=3500){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.style.display='block';
+  setTimeout(()=>t.style.display='none',ms);
 }
-
-function setStatus(msg, type){
-  document.getElementById('status-text').textContent = msg;
-  const dot = document.getElementById('status-dot');
-  dot.className = 's-dot' + (type ? ' '+type : '');
-}
-
-function showToast(msg, dur=3000){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.style.display = 'block';
-  setTimeout(()=>{ t.style.display='none'; }, dur);
-}
-
 function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
-
-// Init
-if(cfg.id) setStatus('Credenciales cargadas — carga un archivo DWG', 'green');
 </script>
 </body>
 </html>
