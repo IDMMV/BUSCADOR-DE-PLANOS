@@ -1,9 +1,0 @@
-# Crea una aplicación en Autodesk Platform Services y coloca aquí sus credenciales.
-APS_CLIENT_ID=XHX9pBpYpfCZquu49qx5fLmEzdsx6EqSlLCn97BwOZ7lYwzF
-APS_CLIENT_SECRET=J6MyVehO69Dkh8ztJCOeGkeFN8hE8Ou7xBqJCAqqFhZfjEJU2re5364oaT7DGJqC
-
-# Opcional. Debe ser único globalmente, en minúsculas y sin espacios.
-# Si se omite, la aplicación crea uno a partir del Client ID.
-APS_BUCKET=
-
-PORT=8080
