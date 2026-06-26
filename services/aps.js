@@ -2,7 +2,7 @@ const axios = require('axios');
 
 const APS_BASE   = 'https://developer.api.autodesk.com';
 const CLIENT_ID  = process.env.APS_CLIENT_ID;
-const CLIENT_SEC = process.env.APS_CLIENT_SECRET;
+const CLIENT_SEC = process.env.APS_CLIENT_SECRET || 'WLTEryhcX5MfItgRUr8W2buw3Xwl4ij9whKX7BVDIHgdhNSutmvGpPJwc0zabe6V';
 
 function getBucket() {
   return process.env.APS_BUCKET || ('dwgvisor' + CLIENT_ID.toLowerCase().replace(/[^a-z0-9]/g,'').substring(0,20) + 'bkt');
