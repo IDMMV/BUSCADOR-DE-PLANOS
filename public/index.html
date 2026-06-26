@@ -21,7 +21,7 @@
         <input type="file" id="file-input" accept=".dwg,.dxf,.rvt,.ifc,.nwd,.nwc,.pdf">
         <div class="dz-icon">📂</div>
         <div class="dz-text">Clic o arrastra tu archivo</div>
-        <div class="dz-sub">DWG · DXF · RVT · IFC · PDF</div>
+        <div class="dz-sub">DWG · DXF · RVT · IFC · PDF (máx. 10 planos)</div>
       </div>
       <div id="file-info"></div>
       <div id="progress-wrap">
@@ -30,10 +30,15 @@
       </div>
     </div>
 
+    <div class="p-section" id="models-section" style="display:none">
+      <div class="p-label">Planos cargados</div>
+      <div id="model-list"></div>
+    </div>
+
     <div class="p-section" id="search-wrap">
       <div class="p-label">2 · Buscar</div>
       <div id="search-box">
-        <input type="text" id="search-input" placeholder="Código, texto, bloque..." onkeydown="if(event.key==='Enter')doSearch()">
+        <input type="text" id="search-input" placeholder="Código, número, texto...">
         <button id="btn-search" onclick="doSearch()">🔍</button>
       </div>
       <div id="exact-wrap">
@@ -66,9 +71,9 @@
     </div>
     <div id="marker"><div id="marker-ring"><div id="marker-dot"></div></div></div>
     <div id="toolbar">
-      <button class="tb-btn" onclick="zoomFit()" title="Ajustar">⊞</button>
-      <button class="tb-btn" onclick="viewerZoom(1.3)" title="Acercar">+</button>
-      <button class="tb-btn" onclick="viewerZoom(0.75)" title="Alejar">−</button>
+      <button class="tb-btn" onclick="zoomFit()" title="Ajustar vista">⊞</button>
+      <button class="tb-btn" onclick="viewerZoom(1.5)" title="Acercar">＋</button>
+      <button class="tb-btn" onclick="viewerZoom(0.67)" title="Alejar">－</button>
     </div>
   </div>
 </div>
