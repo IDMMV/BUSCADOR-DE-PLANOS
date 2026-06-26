@@ -1,12 +1,13 @@
 services:
   - type: web
-    name: dwg-buscador-web
-    runtime: docker
-    plan: free
+    name: dwg-visor
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
     envVars:
       - key: APS_CLIENT_ID
         sync: false
       - key: APS_CLIENT_SECRET
         sync: false
       - key: APS_BUCKET
-        sync: false
+        value: ""
