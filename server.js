@@ -46,6 +46,25 @@ async function ensureBucket(token) {
   return bucket;
 }
 
+async function uploadFileNew(token, bucket, key, buffer) {
+  const { data: urlData } = await axios.get(
+    `${APS_BASE}/oss/v2/buckets/${bucket}/objects/${key}/signeds3upload?minutesExpiration=10`,
+    { headers: { Authorization: 'Bearer ' + token } }
+  );
+  const uploadKey = urlData.uploadKey;
+  const urls      = urlData.urls || [urlData.url];
+  await axios.put(urls[0], buffer, {
+    headers: { 'Content-Type': 'application/octet-stream' },
+    maxBodyLength: Infinity
+  });
+  const { data } = await axios.post(
+    `${APS_BASE}/oss/v2/buckets/${bucket}/objects/${key}/signeds3upload`,
+    { uploadKey },
+    { headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' } }
+  );
+  return data.objectId || data.object_id || `urn:adsk.objects:os.object:${bucket}/${key}`;
+}
+
 app.get('/api/auth/token', async (req, res) => {
   try {
     const token = await getToken();
@@ -61,12 +80,8 @@ app.post('/api/models/upload', upload.single('file'), async (req, res) => {
     const token  = await getToken();
     const bucket = await ensureBucket(token);
     const key    = req.file.originalname.replace(/[^a-zA-Z0-9._-]/g, '_');
-    const { data } = await axios.put(
-      `${APS_BASE}/oss/v2/buckets/${bucket}/objects/${key}`,
-      req.file.buffer,
-      { headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/octet-stream' }, maxBodyLength: Infinity }
-    );
-    const urnB64 = Buffer.from(data.objectId).toString('base64').replace(/=/g, '');
+    const objectId = await uploadFileNew(token, bucket, key, req.file.buffer);
+    const urnB64   = Buffer.from(objectId).toString('base64').replace(/=/g, '');
     await axios.post(`${APS_BASE}/modelderivative/v2/designdata/job`,
       { input: { urn: urnB64 }, output: { formats: [{ type: 'svf2', views: ['2d', '3d'] }] } },
       { headers: { Authorization: 'Bearer ' + token, 'x-ads-force': 'true' } }
