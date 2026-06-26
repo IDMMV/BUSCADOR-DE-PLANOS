@@ -1,0 +1,15 @@
+PRUEBAS REALIZADAS
+
+- Archivo L_FEB26.DWG detectado como DWG AutoCAD AC1024 (2010/2011/2012).
+- Dependencias instaladas correctamente con npm.
+- Auditoría npm: 0 vulnerabilidades conocidas reportadas.
+- Sintaxis validada en servidor, rutas, servicios y JavaScript del navegador.
+- Servidor iniciado localmente con configuración de prueba.
+- Endpoint /api/health respondió correctamente.
+- Se verificó la inclusión del DWG dentro de sample/L_FEB26.DWG.
+
+PENDIENTE PARA LA PRUEBA COMPLETA
+
+La carga, traducción y visualización real del DWG requieren APS_CLIENT_ID y
+APS_CLIENT_SECRET válidos del propietario. Estas credenciales no se incluyen
+por seguridad.

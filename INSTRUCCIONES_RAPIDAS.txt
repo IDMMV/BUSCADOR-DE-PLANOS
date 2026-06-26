@@ -1,0 +1,14 @@
+LOCALIZADOR DWG - PASOS RÁPIDOS
+
+1. Crea una aplicación en Autodesk Platform Services (APS).
+2. Copia .env.example y renombra la copia como .env.
+3. Coloca APS_CLIENT_ID y APS_CLIENT_SECRET dentro de .env.
+4. Abre una terminal dentro de esta carpeta.
+5. Ejecuta: npm install
+6. Ejecuta: npm run check
+7. Ejecuta: npm start
+8. Abre: http://localhost:8080
+9. Pulsa "Cargar L_FEB26.DWG".
+10. Cuando el plano abra, escribe el código o valor y pulsa "Buscar".
+
+No publiques el archivo .env ni el Client Secret en GitHub.

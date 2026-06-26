@@ -1,13 +1,26 @@
 {
-  "name": "dwg-visor-web",
+  "name": "dwg-buscador-web",
   "version": "1.0.0",
+  "private": true,
+  "description": "Visor web de archivos DWG con búsqueda, zoom y marcador sobre el elemento encontrado.",
   "main": "server.js",
-  "scripts": { "start": "node server.js" },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "check": "node --check server.js && node --check config.js && node --check services/aps.js && node --check routes/auth.js && node --check routes/models.js && node --check public/viewer.js && node --check public/search.js && node --check public/app.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
-    "axios": "^1.6.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2",
-    "multer": "^1.4.5-lts.1"
+    "@aps_sdk/authentication": "^1.0.0",
+    "@aps_sdk/model-derivative": "^1.0.0",
+    "@aps_sdk/oss": "^1.0.1",
+    "dotenv": "^16.4.1",
+    "express": "^4.21.2",
+    "express-formidable": "^1.2.0"
+  },
+  "devDependencies": {
+    "@types/forge-viewer": "^7.48.0"
   }
 }
