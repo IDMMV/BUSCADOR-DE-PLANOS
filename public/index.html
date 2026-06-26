@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Localizador DWG Web</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="header">
+  <h1>📐 Localizador DWG <span class="badge">WEB</span></h1>
+</div>
+
+<div id="main">
+  <div id="panel">
+
+    <div class="p-section">
+      <div class="p-label">1 · Cargar plano</div>
+      <div id="drop-zone">
+        <input type="file" id="file-input" accept=".dwg,.dxf,.rvt,.ifc,.nwd,.nwc,.pdf">
+        <div class="dz-icon">📂</div>
+        <div class="dz-text">Clic o arrastra tu archivo</div>
+        <div class="dz-sub">DWG · DXF · RVT · IFC · PDF</div>
+      </div>
+      <div id="file-info"></div>
+      <div id="progress-wrap">
+        <div id="progress-bar-bg"><div id="progress-bar"></div></div>
+        <div id="progress-text">Iniciando...</div>
+      </div>
+    </div>
+
+    <div class="p-section" id="search-wrap">
+      <div class="p-label">2 · Buscar</div>
+      <div id="search-box">
+        <input type="text" id="search-input" placeholder="Código, texto, bloque..." onkeydown="if(event.key==='Enter')doSearch()">
+        <button id="btn-search" onclick="doSearch()">🔍</button>
+      </div>
+      <div id="exact-wrap">
+        <input type="checkbox" id="exact-check">
+        <label for="exact-check">Coincidencia exacta</label>
+      </div>
+      <div id="search-hint"></div>
+    </div>
+
+    <div class="p-section" style="flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0">
+      <div id="results-header">
+        <span class="p-label" style="margin:0">Resultados</span>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span id="results-count"></span>
+          <button class="nav-btn" id="btn-prev" onclick="navigate(-1)" disabled>◀</button>
+          <button class="nav-btn" id="btn-next" onclick="navigate(1)" disabled>▶</button>
+        </div>
+      </div>
+      <div id="no-results"></div>
+      <div id="results-list"></div>
+    </div>
+
+  </div>
+
+  <div id="viewer-wrap">
+    <div id="forge-viewer"></div>
+    <div id="placeholder">
+      <div class="ph-icon">🗺️</div>
+      <p>Carga un plano DWG para comenzar</p>
+    </div>
+    <div id="marker"><div id="marker-ring"><div id="marker-dot"></div></div></div>
+    <div id="toolbar">
+      <button class="tb-btn" onclick="zoomFit()" title="Ajustar">⊞</button>
+      <button class="tb-btn" onclick="viewerZoom(1.3)" title="Acercar">+</button>
+      <button class="tb-btn" onclick="viewerZoom(0.75)" title="Alejar">−</button>
+    </div>
+  </div>
+</div>
+
+<div id="statusbar">
+  <div class="s-dot" id="status-dot"></div>
+  <span id="status-text">Listo</span>
+</div>
+<div id="toast"></div>
+
+<link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/style.css">
+<script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/viewer3D.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
